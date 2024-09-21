@@ -12,5 +12,9 @@
   "dependencies": {
     "discord.js": "^14.15.3",
     "winston": "^3.14.2"
+  },
+  "scripts": {
+    "clean": "rm -rf dist && echo 'Done.'",
+    "dev": "bun run ./src/index.ts"
   }
 }

@@ -1,16 +1,20 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, SlashCommandStringOption } from "discord.js";
 import type DiscordCommand from "../../interfaces/discordCommand";
-import getCommands from "../../getCommands";
+import getCommands from "../../../src/getCommands";
 import deployCommand from "../../deploy_commands";
 
 export default {
 	data: new SlashCommandBuilder()
 		.setName("reload")
-		.setDescription("Reloads the bot's commands"),
+		.setDescription("Reloads the bot's commands")
+		.addStringOption(opt => 
+			opt.setName('command')
+				.setDescription('Command to reload')
+		),
 	async execute(interaction: ChatInputCommandInteraction) {
 		try {
 			console.log(require.cache)
-			interaction.client.commands = await getCommands();
+			const commands = await getCommands();
 			deployCommand(interaction.client.commands).then(() => {
 				console.log(`Successfully deployed ${interaction.client.commands?.size} commands`);
 			});

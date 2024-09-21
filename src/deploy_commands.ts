@@ -1,5 +1,5 @@
 import { Collection, REST, Routes } from "discord.js";
-import { client_id, guild_id } from "./config.json";
+import { client_id, guild_id } from "../config.json";
 import type DiscordCommand from "./interfaces/discordCommand";
 
 const rest = new REST().setToken(process.env.DISCORD_TOKEN as string);

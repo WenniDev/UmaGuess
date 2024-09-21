@@ -4,8 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 import type DiscordCommand from "./interfaces/discordCommand";
 
-const foldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(foldersPath);
+const commandsFoldersPath = path.join(__dirname, "commands");
+const commandsFolders = fs.readdirSync(commandsFoldersPath);
 const glob = new Glob("*.ts");
 
 export default async function getCommands(): Promise<
@@ -13,10 +13,10 @@ export default async function getCommands(): Promise<
 > {
 	let commands = new Collection<string, DiscordCommand>();
 
-	for (const folder of commandFolders) {
-		const commandsPath = path.join(foldersPath, folder);
-		const commandFiles = glob.scanSync(commandsPath);
-		for (const file of commandFiles) {
+	for (const folder of commandsFolders) {
+		const commandsPath = path.join(commandsFoldersPath, folder);
+		const commandFolder = glob.scanSync(commandsPath);
+		for (const file of commandFolder) {
 			const filePath = path.join(commandsPath, file);
 			const command = (await import(filePath)).default as DiscordCommand;
 			if (!command) continue;
