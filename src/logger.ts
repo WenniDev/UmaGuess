@@ -1,17 +1,18 @@
-import winston from "winston";
+import { createLogger, format, transports } from "winston";
+const {  combine, timestamp, label, printf } = format
 
-const logger = winston.createLogger({
+const myFormat = printf(({ level, message, label, timestamp }) => {
+	return `${timestamp} [${label}] ${level}: ${message}`;
+  });
+
+const logger = createLogger({
 	level: 'debug',
-	format: winston.format.json(),
-	defaultMeta: { service: 'UmaGuess' },
-	transports: [
-		new winston.transports.File({ filename: 'error.log', level: 'error' }),
-		new winston.transports.File({ filename: 'combined.log' })
-	]
+	format: combine(
+		label({ label: 'UmaGuess' }),
+		timestamp(),
+		myFormat
+	  ),
+	transports: [new transports.Console()]
 })
-
-if (process.env.NODE_ENV !== 'production') {
-	logger.add(new winston.transports.Console({ format: winston.format.simple() }))
-}
 
 export default logger
