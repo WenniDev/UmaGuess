@@ -7,7 +7,7 @@ export default {
 		.setDescription('Replies with "Test!"'),
 	async execute(interaction: ChatInputCommandInteraction) {
 		try {
-			return await interaction.reply("Testaaa!");
+			return await interaction.reply("Test!");
 		} catch (error) {
 			console.error(error);
 		}

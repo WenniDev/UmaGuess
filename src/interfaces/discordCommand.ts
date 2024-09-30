@@ -1,4 +1,5 @@
 import type {
+	AutocompleteInteraction,
 	ChatInputCommandInteraction,
 	CommandInteraction,
 	InteractionResponse,
@@ -7,7 +8,13 @@ import type {
 
 export default interface DiscordCommand {
 	data: SlashCommandBuilder;
+	
+	autocomplete: (
+		interaction: AutocompleteInteraction,
+	) => Promise<any> | undefined;
+	
 	execute: (
 		interaction: ChatInputCommandInteraction | CommandInteraction,
 	) => Promise<InteractionResponse<boolean>>;
+
 }
